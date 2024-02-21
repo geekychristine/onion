@@ -1,4 +1,18 @@
 {
   "singleQuote": true,
-  "plugins": ["prettier-plugin-tailwindcss"]
+  "tabWidth": 2,
+  "semi": true,
+  "trailingComma": "none",
+  "bracketSpacing": true,
+  "arrowParens": "avoid",
+  "overrides": [
+    {
+      "files": "*.scss",
+      "options": {
+        "printWidth": 100,
+        "cursorOffset": -1,
+        "singleQuote": false
+      }
+    }
+  ]
 }
