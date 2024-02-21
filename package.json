@@ -2,9 +2,12 @@
   "name": "@onion/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "dev": "nx run ui:storybook"
+  },
   "private": true,
   "dependencies": {
+    "clsx": "^2.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tslib": "^2.3.0"
