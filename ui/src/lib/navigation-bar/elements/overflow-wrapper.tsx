@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import clsx from 'clsx';
-import { OverflowMenu } from './overflow-menu';
+import { NavigationBarItem, OverflowMenu } from './';
+
 import { slugify } from '../../utils';
 
 const intersectionStyles = {
@@ -23,7 +24,9 @@ type OverflownItemProps = {
   [key: string]: boolean;
 };
 
-export const OverflowWrapper = ({ rootElement, children, data }) => {
+export const OverflowWrapper = ({ menu }) => {
+  const navRef = useRef(null);
+  const rootElement = navRef?.current;
   // Visibility Map tracks all the child items that are currently *visible*
   const [overflownItems, setOverflowItems] = useState({});
   const dataAttr = 'data-intersectionid';
@@ -50,7 +53,9 @@ export const OverflowWrapper = ({ rootElement, children, data }) => {
   };
 
   useEffect(() => {
+    const rootElement = navRef?.current;
     if (!rootElement) {
+      console.info('🚩 no root...');
       return;
     }
     const observer = new IntersectionObserver(handleIntersection, {
@@ -58,6 +63,8 @@ export const OverflowWrapper = ({ rootElement, children, data }) => {
       rootMargin: '0px -70px 0px 0px',
       threshold: 1
     });
+
+    console.info('🖨 LOGGING observer:', observer);
 
     // We are adding observers to child elements of the container div
     // with ref as navRef. Notice that we are adding observers
@@ -70,30 +77,45 @@ export const OverflowWrapper = ({ rootElement, children, data }) => {
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [navRef.current]);
 
-  const filterOverflow = data.filter(item => {
+  const filterOverflow = menu.filter(item => {
     const slug = slugify(item.title);
     return !overflownItems[slug];
   });
 
-  return (
-    rootElement && (
-      <>
-        {React.Children.map(children, child => {
-          const isVisible = overflownItems[child.props[dataAttr]];
+  console.info('🖨 LOGGING overflownItems:', overflownItems);
 
-          return React.cloneElement(child, {
-            className: clsx(child.props.className, {
-              [intersectionStyles.visible]: !!isVisible,
-              [intersectionStyles.invisible]: !isVisible
-            }),
+  const renderItems = (item, ix) => {
+    const { title } = item;
+    // const active = href && href?.includes(pathname);
+    const isVisible = overflownItems[slugify(title)];
+
+    return (
+      <li
+        key={ix}
+        data-intersectionid={slugify(title)}
+        className={clsx(
+          {
+            [intersectionStyles.visible]: !!isVisible,
+            [intersectionStyles.invisible]: !isVisible,
             'aria-hidden': !isVisible
-          });
-        })}
-        <OverflowMenu menu={filterOverflow} />
-      </>
-    )
+          },
+          'text-neutral-base whitespace-nowrap'
+        )}
+      >
+        <NavigationBarItem {...item} />
+      </li>
+    );
+  };
+
+  return (
+    <div className="relative flex gap-2">
+      <ul className="flex gap-2 p-0 w-full" ref={navRef}>
+        {navRef?.current && menu.map(renderItems)}
+      </ul>
+      <OverflowMenu menu={filterOverflow} />
+    </div>
   );
 };
 

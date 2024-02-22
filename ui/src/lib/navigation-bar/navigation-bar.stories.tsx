@@ -19,7 +19,13 @@ export const Primary: Story = {
 
 export const Header: Story = {
   args: {},
-  decorators: [Story => <div className="grid-container">{<Story />}</div>]
+  decorators: [
+    Story => (
+      <div className="grid-container">
+        {<Story />} <div>Some other Jawn</div>
+      </div>
+    )
+  ]
   // play: async ({ canvasElement }) => {
   //   const canvas = within(canvasElement);
   //   expect(canvas.getByText(/Welcome to NavigationBar!/gi)).toBeTruthy();
