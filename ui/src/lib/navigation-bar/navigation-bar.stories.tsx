@@ -22,7 +22,10 @@ export const Header: Story = {
   decorators: [
     Story => (
       <div className="grid-container">
-        {<Story />} <div>Some other Jawn</div>
+        {<Story />}{' '}
+        <div className="extra-slot">
+          Some other JawnSome other JawnSome other Jawn Some other Jawn
+        </div>
       </div>
     )
   ]
