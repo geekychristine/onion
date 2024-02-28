@@ -3,6 +3,13 @@ import type { StorybookConfig } from '@storybook/react-vite';
 const config: StorybookConfig = {
   stories: ['../src/lib/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
   addons: ['@storybook/addon-essentials', '@storybook/addon-interactions'],
+  docs: {
+    /**
+     * 👇 See the table below for the list of supported options
+     * @see https://storybook.js.org/docs/writing-docs/autodocs#configure
+     */
+    autodocs: 'tag',
+  },
   framework: {
     name: '@storybook/react-vite',
     options: {
