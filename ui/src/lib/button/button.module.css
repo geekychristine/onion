@@ -1,13 +1,16 @@
-/*
- * Replace this with your own classes
- *
- * e.g.
- * .container {
- * }
-*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .button {
-  @apply flex items-center text-white bg-blue-500 p-4 border-none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  @apply bg-transparent relative outline-none cursor-pointer bg-none border-2 border-solid border-transparent items-center justify-items-center no-underline box-border;
+  padding: var(--button-padding, 0);
+  justify-content: var(--justify);
+  transition: all 200ms ease-in;
+  transition-property: outline background-color border-color background-image;
+  width: var(--width);
+}
+
+.button:focus-visible {
+  @apply outline-transparent outline-offset-2 outline-2;
 }
