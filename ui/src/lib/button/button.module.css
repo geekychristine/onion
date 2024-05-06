@@ -9,6 +9,7 @@
   transition: all 200ms ease-in;
   transition-property: outline background-color border-color background-image;
   width: var(--width);
+  background: red !important;
 }
 
 .button:focus-visible {
